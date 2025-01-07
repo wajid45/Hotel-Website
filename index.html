@@ -96,6 +96,49 @@
         <p>Our commitment to excellence and attention to detail make us the perfect choice for your next stay. Let us make your experience extraordinary.</p>
     </section>
 
+     <!-- FAQ Icon -->
+     <div class="faq-icon" onclick="toggleFaqModal()">?</div>
+
+     <!-- FAQ Modal -->
+     <div class="faq-modal" id="faqModal">
+         <div class="faq-modal-header">FAQs</div>
+ 
+         <!-- FAQ List -->
+         <div class="faq-item">
+             <div class="faq-question" onclick="toggleAnswer(this)">1. How can I track my order?</div>
+             <div class="faq-answer">You can track your order through the tracking number provided in your confirmation email.</div>
+         </div>
+         <div class="faq-item">
+             <div class="faq-question" onclick="toggleAnswer(this)">2. Do you offer free shipping?</div>
+             <div class="faq-answer">Yes, we offer free shipping on orders over $500 within the United States.</div>
+         </div>
+ 
+         <!-- FAQ Form -->
+         <div class="faq-form">
+             <h3>Have a question?</h3>
+             <form id="faqForm" method="POST" action="data.jsp" onsubmit="return validateFaqForm()">
+                 <input type="email" id="faq-email" name="email" placeholder="Your E-mail" required>
+                 <span id="faq-email-error" class="error-message" style="display: none;">Please enter a valid email address.</span>
+                 <textarea id="faq-question" name="question" rows="4" placeholder="Your Question" required></textarea>
+                 <span id="faq-question-error" class="error-message" style="display: none;">Please enter a question.</span>
+                 <button type="submit">Submit</button>
+             </form>
+         </div>
+ 
+     </div>
+ 
+     <script>
+         function toggleFaqModal() {
+             const faqModal = document.getElementById('faqModal');
+             faqModal.style.display = faqModal.style.display === 'none' || faqModal.style.display === '' ? 'flex' : 'none';
+         }
+ 
+         function toggleAnswer(element) {
+             const answer = element.nextElementSibling;
+             answer.style.display = answer.style.display === 'none' || answer.style.display === '' ? 'block' : 'none';
+         }
+     </script>
+
     <footer>
         <div class="footer-content">
             <div class="footer-links">

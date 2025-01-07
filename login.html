@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royalton Hotel - Luxury Stay</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="img/logo.png" alt="Royalton Hotel">
+            </a>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#rooms">Rooms</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="javascript:void(0);" onclick="redirectToLogin()">Book Now</a></li>
+                <li><a href="javascript:void(0);" onclick="redirectToLogin()">Account</a></li>
+            </ul>
+        </nav>
+        <script>
+            function redirectToLogin() {
+                sessionStorage.setItem('redirectAfterLogin', 'reservation.html');
+                window.location.href = 'login.html';
+            }
+        </script>
+    </header>
+
+    <div class="container">
+        <!-- Check if user is logged in -->
+        <div id="account-section" style="display:none;">
+            <div class="account-section" style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 300px; text-align: center; margin: auto;">
+                <h2>Welcome, <span id="user-name"></span></h2>
+                <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px;">
+                        <a href="index.html" class="btn">Back to Home</a>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <a href="reservation.html" class="btn">Book your Room</a>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <a href="rooms.html" class="btn">View Rooms</a>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <a href="logout.html" class="btn">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-container" id="login-form">
+            <h2>Login</h2>
+            <form action="login.html" method="POST" onsubmit="return validateLoginForm()">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="login-email" placeholder="Enter your email" required>
+                    <span id="login-email-error" class="error-message" style="display: none;">Please enter a valid email address.</span>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="login-password" placeholder="Enter your password" required>
+                    <span id="login-password-error" class="error-message" style="display: none;">Password cannot be empty.</span>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <p class="toggle-form">Don't have an account? <a href="javascript:void(0);" onclick="toggleForms()">Sign Up</a></p>
+                <div id="login-error-message" class="error-message" style="display: none;"></div>
+            </form>
+        </div>
+
+        <div class="form-container hidden" id="signup-form">
+            <h2>Sign Up</h2>
+            <form action="signup.html" method="POST" onsubmit="return validateSignupForm()">
+                <div class="form-group">
+                    <label for="signup-name">Name</label>
+                    <input type="text" id="signup-name" name="signup-name" placeholder="Enter your name" required>
+                    <span id="signup-name-error" class="error-message" style="display: none;">Name should only contain alphabets.</span>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" name="signup-email" placeholder="Enter your email" required>
+                    <span id="signup-email-error" class="error-message" style="display: none;">Please enter a valid email address.</span>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" name="signup-password" placeholder="Enter your password" required>
+                    <span id="signup-password-error" class="error-message" style="display: none;">Password must be at least 8 characters long, with at least one uppercase, one lowercase, one numeric, and one special character.</span>
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm-password">Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" name="signup-confirm-password" placeholder="Confirm your password" required>
+                    <span id="signup-confirm-password-error" class="error-message" style="display: none;">Passwords do not match.</span>
+                </div>
+                <button type="submit" class="btn">Sign Up</button>
+                <p class="toggle-form">Already have an account? <a href="javascript:void(0);" onclick="toggleForms()">Login</a></p>
+                <div id="signup-error-message" class="error-message" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleForms() {
+            const loginForm = document.getElementById("login-form");
+            const signupForm = document.getElementById("signup-form");
+            loginForm.classList.toggle("hidden");
+            signupForm.classList.toggle("hidden");
+        }
+
+        function validateLoginForm() {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+            let valid = true;
+
+            document.getElementById("login-email-error").style.display = "none";
+            document.getElementById("login-password-error").style.display = "none";
+
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById("login-email-error").style.display = "block";
+                valid = false;
+            }
+
+            if (password.trim() === "") {
+                document.getElementById("login-password-error").style.display = "block";
+                valid = false;
+            }
+
+            if (!valid) {
+                document.getElementById("login-error-message").style.display = "block";
+                document.getElementById("login-error-message").innerText = "Invalid email or password.";
+            }
+            
+            return valid;
+        }
+
+        function validateSignupForm() {
+            const name = document.getElementById("signup-name").value;
+            const email = document.getElementById("signup-email").value;
+            const password = document.getElementById("signup-password").value;
+            const confirmPassword = document.getElementById("signup-confirm-password").value;
+            let valid = true;
+
+            document.getElementById("signup-name-error").style.display = "none";
+            document.getElementById("signup-email-error").style.display = "none";
+            document.getElementById("signup-password-error").style.display = "none";
+            document.getElementById("signup-confirm-password-error").style.display = "none";
+
+            const namePattern = /^[A-Za-z]+$/;
+            if (!namePattern.test(name)) {
+                document.getElementById("signup-name-error").style.display = "block";
+                valid = false;
+            }
+
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById("signup-email-error").style.display = "block";
+                valid = false;
+            }
+
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordPattern.test(password)) {
+                document.getElementById("signup-password-error").style.display = "block";
+                valid = false;
+            }
+
+            if (password !== confirmPassword) {
+                document.getElementById("signup-confirm-password-error").style.display = "block";
+                valid = false;
+            }
+
+            return valid;
+        }
+
+        // Check if a user is already logged in and display account info
+        const userName = sessionStorage.getItem('userName');
+        if (userName) {
+            document.getElementById('account-section').style.display = 'block';
+            document.getElementById('user-name').innerText = userName;
+        }
+    </script>
+</body>
+</html>
